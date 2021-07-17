@@ -24,7 +24,14 @@ function TodoApp() {
         isDone: false,
         personId: window.localStorage.getItem("personId"),
       })
-      .then((res) => {});
+      .then((res) => {
+        {
+          sendTask.map((a) => {
+            <li>{a}</li>;
+          });
+          console.log(res);
+        }
+      });
   };
 
   // am incercat aici
