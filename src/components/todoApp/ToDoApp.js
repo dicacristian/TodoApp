@@ -24,14 +24,7 @@ function TodoApp() {
         isDone: false,
         personId: window.localStorage.getItem("personId"),
       })
-      .then((res) => {
-        {
-          sendTask.map((a) => {
-            <li>{a}</li>;
-          });
-          console.log(res);
-        }
-      });
+      .then((res) => {});
   };
 
   // am incercat aici
@@ -51,19 +44,6 @@ function TodoApp() {
       <button className="add-button" onClick={AddTask}>
         Add
       </button>
-      <br />
-      {tasklist !== [] ? (
-        <ul>
-          {tasklist.map((t) => (
-            <li>
-              {t}
-              <button className="completed">✅</button>
-
-              <button className="delete">🗑️</button>
-            </li>
-          ))}
-        </ul>
-      ) : null}
     </div>
   );
 }
