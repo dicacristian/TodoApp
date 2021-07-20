@@ -12,9 +12,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 const Login = () => {
   const paperStyle = {
-    padding: 20,
+    padding: "30px 20px",
     height: "50vh",
-    width: 280,
+    width: 400,
     margin: "20px auto",
     background: "linear-gradient(to right, #4568dc, #b06ab3 )",
   };
