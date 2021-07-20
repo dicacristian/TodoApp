@@ -34,17 +34,20 @@ function TodoApp() {
   const completeTask = (e, id) => {
     axios
       .put("https://todo-application-2.herokuapp.com/action", {
-        id,
+        id: id,
         isDone: false,
       })
-      .then((res) => console.log(res));
+      .then((res) => {  
+        
+      });
   };
 
   const deleteTask = (e, id) => {
-    console.log(id);
     axios
       .delete("https://todo-application-2.herokuapp.com/action", {
-        id: id,
+        data: {
+          id: id,
+        },
       })
       .then((res) => {
         console.log("before", tasklist);
