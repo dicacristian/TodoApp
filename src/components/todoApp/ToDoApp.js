@@ -14,6 +14,11 @@ function TodoApp() {
     axios
       .get("https://todo-application-2.herokuapp.com/people")
       .then((res) => console.log("after", tasklist));
+    axios
+      .post("https://todo-application-2.herokuapp.com/actionsOfUser", {
+        personId: window.localStorage.getItem("personId"),
+      })
+      .then((res) => console.log(res));
   }, [tasklist]);
 
   const AddTask = () => {
@@ -37,8 +42,14 @@ function TodoApp() {
         id: id,
         isDone: false,
       })
-      .then((res) => {  
-        
+      .then((res) => {
+        const element = tasklist.findIndex((elem) => elem.id == id);
+        const newTaskList = [...tasklist];
+        newTaskList[element] = {
+          ...newTaskList[element],
+          isDone: true,
+        };
+        setTaskList(newTaskList);
       });
   };
 
@@ -75,7 +86,7 @@ function TodoApp() {
       </button>
       <ul>
         {tasklist.map((t, key) => (
-          <li key={key}>
+          <li key={key} className={t.isDone ? "crossText" : "listitem"}>
             {t.name}
             <button className="delete" onClick={(e) => deleteTask(e, t.id)}>
               🗑️
