@@ -5,25 +5,25 @@ import axios from "axios";
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasklist, setTaskList] = useState([]);
-  // const [searchList, setSearchList] = useState("");
+  const [searchList, setSearchList] = useState("");
 
-  // const search = (e) => {
-  //   const searchWord = e.target.value;
-  //   setSearchList(searchWord);
-  //   const newFilter = task.filter((value) => {
-  //     return value.task.toLowerCase().includes(searchWord.toLowerCase());
-  //   });
+  const search = (e) => {
+    const searchWord = e.target.value;
+    setSearchList(searchWord);
+    const newFilter = task.filter((value) => {
+      return value.task.toLowerCase().includes(searchWord.toLowerCase());
+    });
 
-  //   if (searchWord === "") {
-  //     setTaskList([]);
-  //   } else {
-  //     setTaskList(newFilter);
-  //   }
-  //   const clearInput = () => {
-  //     setTaskList([]);
-  //     setSearchList("");
-  //   };
-  // };
+    if (searchWord === "") {
+      setTaskList([]);
+    } else {
+      setTaskList(newFilter);
+    }
+    const clearInput = () => {
+      setTaskList([]);
+      setSearchList("");
+    };
+  };
 
   const tStyle = {
     color: "black",
@@ -105,8 +105,12 @@ function TodoApp() {
 
   return (
     <div className="content">
-      {/* <input type="text" placeholder="search tasks..."></input>
-      <button>Search Task</button> */}
+      <input
+        type="text"
+        placeholder="search tasks..."
+        onChange={(e) => search(e)}
+      ></input>
+      <button>Search Task</button>
       <h1 className="title">To Do App</h1>
       <input
         className="inputStyle"
