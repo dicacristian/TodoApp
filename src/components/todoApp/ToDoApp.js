@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./todoapp.css";
 import axios from "axios";
+import SearchField from "react-search-field";
 
 function TodoApp() {
   const [task, setTask] = useState("");
   const [tasklist, setTaskList] = useState([]);
   const [searchList, setSearchList] = useState("");
+  const [search1, setSearch1] = useState("");
 
   const search = (e) => {
     const searchWord = e.target.value;
-    setSearchList(searchWord);
-    const newFilter = task.filter((value) => {
-      return value.task.toLowerCase().includes(searchWord.toLowerCase());
+    setSearch1(searchWord);
+    const newFilter = tasklist.filter((value) => {
+      return value.name.includes(searchWord);
     });
-
-    if (searchWord === "") {
-      setTaskList([]);
-    } else {
-      setTaskList(newFilter);
-    }
-    const clearInput = () => {
-      setTaskList([]);
-      setSearchList("");
-    };
+    setSearchList(newFilter);
   };
 
+  const refresh = (e) => {
+    const searchWord = e;
+    setSearch1(searchWord);
+    const newFilter = tasklist.filter((value) => {
+      return value.name.includes(searchWord);
+    });
+    setSearchList(newFilter);
+  };
   const tStyle = {
     color: "black",
   };
@@ -87,6 +88,16 @@ function TodoApp() {
           isDone: !done,
         };
         setTaskList(newTaskList);
+        const newSearchList = [...searchList];
+        if (newSearchList.length > 0) {
+          const element = newSearchList.findIndex((elem) => elem.id == id);
+
+          newSearchList[element] = {
+            ...newSearchList[element],
+            isDone: !done,
+          };
+          setSearchList(newSearchList);
+        }
       });
   };
 
@@ -100,17 +111,39 @@ function TodoApp() {
       .then((res) => {
         console.log("before", tasklist);
         setTaskList(tasklist.filter((t) => t.id !== id));
+        setSearchList(searchList.filter((t) => t.id !== id));
       });
   };
 
   return (
     <div className="content">
-      <input
-        type="text"
-        placeholder="search tasks..."
-        onChange={(e) => search(e)}
-      ></input>
-      <button>Search Task</button>
+      {setTaskList != 0 && (
+        <input
+          type="text"
+          placeholder="Search task.."
+          onChange={(e) => search(e)}
+          value={search1}
+          required
+        ></input>
+      )}
+      <ul>
+        {searchList.length > 0 && search1.length > 0
+          ? searchList.map((t, key) => (
+              <li key={key} className={t.isDone ? "crossText" : "listitem"}>
+                {t.name}
+                <button className="delete" onClick={(e) => deleteTask(e, t.id)}>
+                  🗑️
+                </button>
+                <button
+                  className="completed"
+                  onClick={(e) => completeTask(e, t.id, t.isDone)}
+                >
+                  ✅
+                </button>
+              </li>
+            ))
+          : search1.length > 0 && <h2 style={tStyle}>Task does not exist!</h2>}
+      </ul>
       <h1 className="title">To Do App</h1>
       <input
         className="inputStyle"
@@ -141,7 +174,7 @@ function TodoApp() {
             </li>
           ))
         ) : (
-          <h2 style={tStyle}>Nu exista task-uri</h2>
+          <h2 style={tStyle}>Task does not exist!</h2>
         )}
       </ul>
     </div>
